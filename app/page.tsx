@@ -23,7 +23,6 @@ interface Location {
   lng: number;
 }
 
-// Default marker icon
 const DefaultIcon = L.icon({
   iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
   iconSize: [25, 41],
@@ -56,8 +55,8 @@ export default function Home() {
     initialValues: { 
       nama_lokasi: "", 
       alamat: "", 
-      lat: "0", // Ensure lat is always defined as a string
-      lng: "0"  // Ensure lng is always defined as a string
+      lat: "0", 
+      lng: "0"  
     },
     validationSchema: Yup.object({
       nama_lokasi: Yup.string().required("Nama lokasi wajib diisi"),
@@ -67,8 +66,8 @@ export default function Home() {
       const newLocation = {
         id: editMode.isEditing ? editMode.id : uuidv4(),
         ...values,
-        lat: parseFloat(values.lat), // Ensure valid numbers
-        lng: parseFloat(values.lng), // Ensure valid numbers
+        lat: parseFloat(values.lat), 
+        lng: parseFloat(values.lng), 
       };
 
       if (isNaN(newLocation.lat) || isNaN(newLocation.lng)) {
@@ -76,7 +75,6 @@ export default function Home() {
         return;
       }
 
-      // API logic
       const response = await fetch(`/api/locations/${editMode.isEditing ? "update" : "add"}`, {
         method: editMode.isEditing ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
@@ -127,7 +125,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 p-4">
-      {/* Form Section */}
       <div className="lg:w-1/3 bg-white shadow-md rounded-lg p-4">
         <h1 className="text-xl font-semibold mb-4">{editMode.isEditing ? "Edit Lokasi" : "Tambah Lokasi"}</h1>
         <form onSubmit={formik.handleSubmit} className="space-y-4">
@@ -213,7 +210,6 @@ export default function Home() {
         </ul>
       </div>
 
-      {/* Map Section */}
       <div className="lg:w-2/3">
         <MapContainer
           zoom={12}
